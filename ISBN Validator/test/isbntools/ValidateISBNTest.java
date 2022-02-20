@@ -1,10 +1,12 @@
 package isbntools;
-import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.*;
+import static org.junit.Assert.*;
 
 class ValidateISBNTest {
 
     @Test
     public void test() {
-        fail("Not yet implemented");
+        fail();
     }
 }
