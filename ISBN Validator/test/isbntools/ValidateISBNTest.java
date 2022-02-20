@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 class ValidateISBNTest {
 
     @Test
-    public void test() {
-        fail();
+    public void checkAValidISBNTest() {
+        ISBNValidator validator = new ISBNValidator();
     }
 }
