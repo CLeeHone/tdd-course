@@ -1,16 +1,13 @@
 package isbntools;
 
 import org.junit.Test;
-import org.junit.jupiter.api.*;
 
 import static org.junit.Assert.*;
 
 public class ValidateISBNTest {
-    //0140449116 = valid isbn number
-    //0140177396 = valid isbn number
 
     @Test
-    public void checkAValidISBNTest() {
+    public void checkAValidTenDigitISBNTest() {
         ISBNValidator validator = new ISBNValidator();
 
         boolean result = validator.isValidISBN("0140449116");
@@ -21,7 +18,18 @@ public class ValidateISBNTest {
     }
 
     @Test
-    public void checkAnInvalidISBNTest() {
+    public void checkAValid13DigitISBNTest() {
+        ISBNValidator validator = new ISBNValidator();
+
+        boolean result = validator.isValidISBN("9782253008880");
+        assertTrue("The first ISBN number is not valid", result);
+
+        result = validator.isValidISBN("9781853267338");
+        assertTrue("The second ISBN number is not valid", result);
+    }
+
+    @Test
+    public void checkAnInvalidTenDigitISBNTest() {
         ISBNValidator validator = new ISBNValidator();
 
         boolean result = validator.isValidISBN("1404491179");
@@ -29,7 +37,15 @@ public class ValidateISBNTest {
     }
 
     @Test
-    public void isbnLengthTest() {
+    public void checkAnInvalid13DigitISBNTest() {
+        ISBNValidator validator = new ISBNValidator();
+
+        boolean result = validator.isValidISBN("9798467503256");
+        assertFalse("The ISBN number is being marked valid", result);
+    }
+
+    @Test
+    public void tenDigitISBNLengthTest() {
         ISBNValidator validator = new ISBNValidator();
 
         assertThrows(NumberFormatException.class,
@@ -51,7 +67,7 @@ public class ValidateISBNTest {
     }
 
     @Test
-    public void isbnContainsLetterXText() {
+    public void isbnContainsLetterXTest() {
         ISBNValidator validator = new ISBNValidator();
 
         boolean result = validator.isValidISBN("012000030X");
