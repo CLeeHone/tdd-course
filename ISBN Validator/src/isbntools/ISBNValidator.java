@@ -8,24 +8,47 @@ public class ISBNValidator {
 
     public boolean isValidISBN(String isbn) {
 
-        if (isbn.length() != 10) throw new NumberFormatException("ISBN numbers must be exactly 10 digits long");
+        // If the ISBN is 13 digits
+        if (isbn.length() == 13) {
+            int thirteenDigitTotal = 0;
+            int thirteenDigitCounter = 13;
 
-        int sum = 0;
-        int counter = 10;
+            for (int i = 0; i < isbn.length(); ++i) {
+                char currentCharacter = isbn.charAt(i);
 
-        for (int i = 0; i < isbn.length(); ++i) {
-            char currentCharacter = isbn.charAt(i);
+                if (!Character.isDigit(currentCharacter)) {
+                    return false;
+                }
 
-            if (i == isbn.length() - 1 && currentCharacter == 'X') {
-                sum += 10;
+                if (i % 2 == 0) {
+                    thirteenDigitTotal += Character.getNumericValue(isbn.charAt(i));
+                } else {
+                    thirteenDigitTotal += 3 * Character.getNumericValue(isbn.charAt(i));
+                }
+                --thirteenDigitCounter;
+            }
+            return (thirteenDigitTotal % 10 == 0);
+        }
+
+        if (isbn.length() != 10) throw new NumberFormatException("ISBN numbers must be exactly 10 long");
+
+        // If the ISBN is 10 digits
+        int TenDigitTotal = 0;
+        int TenDigitCounter = 10;
+
+        for (int j = 0; j < isbn.length(); ++j) {
+            char currentCharacter = isbn.charAt(j);
+
+            if (j == isbn.length() - 1 && currentCharacter == 'X') {
+                TenDigitTotal += 10;
             } else if (!Character.isDigit(currentCharacter)) {
                 return false;
             }
 
-            sum += counter * Character.getNumericValue(isbn.charAt(i));
-            --counter;
+            TenDigitTotal += TenDigitCounter * Character.getNumericValue(isbn.charAt(j));
+            --TenDigitCounter;
         }
-        return (sum % 11 == 0);
+        return (TenDigitTotal % 11 == 0);
     }
 
 }
