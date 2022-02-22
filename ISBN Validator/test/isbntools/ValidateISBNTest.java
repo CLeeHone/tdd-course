@@ -24,7 +24,7 @@ public class ValidateISBNTest {
     public void checkAnInvalidISBNTest() {
         ISBNValidator validator = new ISBNValidator();
 
-        boolean result = validator.isValidISBN("140449117");
+        boolean result = validator.isValidISBN("1404491179");
         assertFalse("The ISBN number is valid", result);
     }
 
@@ -48,6 +48,14 @@ public class ValidateISBNTest {
                     validator.isValidISBN("hellowworld");
                 }
         );
+    }
+
+    @Test
+    public void isbnContainsLetterXText() {
+        ISBNValidator validator = new ISBNValidator();
+
+        boolean result = validator.isValidISBN("012000030X");
+        assertTrue(result);
     }
 
 }
