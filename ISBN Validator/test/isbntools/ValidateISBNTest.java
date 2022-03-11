@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class ValidateISBNTest {
 
     @Test
-    public void checkAValidTenDigitISBNTest() {
+    public void checkValidShortISBNTest() {
         ISBNValidator validator = new ISBNValidator();
 
         boolean result = validator.isValidISBN("0140449116");
@@ -18,7 +18,7 @@ public class ValidateISBNTest {
     }
 
     @Test
-    public void checkAValid13DigitISBNTest() {
+    public void checkValidLongISBNTest() {
         ISBNValidator validator = new ISBNValidator();
 
         boolean result = validator.isValidISBN("9782253008880");
@@ -29,7 +29,7 @@ public class ValidateISBNTest {
     }
 
     @Test
-    public void checkAnInvalidTenDigitISBNTest() {
+    public void checkInvalidShortISBNTest() {
         ISBNValidator validator = new ISBNValidator();
 
         boolean result = validator.isValidISBN("1404491179");
@@ -37,7 +37,7 @@ public class ValidateISBNTest {
     }
 
     @Test
-    public void checkAnInvalid13DigitISBNTest() {
+    public void checkInvalidLongISBNTest() {
         ISBNValidator validator = new ISBNValidator();
 
         boolean result = validator.isValidISBN("9798467503256");
@@ -45,7 +45,7 @@ public class ValidateISBNTest {
     }
 
     @Test
-    public void tenDigitISBNLengthTest() {
+    public void shortISBNLengthTest() {
         ISBNValidator validator = new ISBNValidator();
 
         assertThrows(NumberFormatException.class,
