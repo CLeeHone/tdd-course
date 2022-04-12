@@ -1,28 +1,66 @@
 package isbntools;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class StockManagementTests {
 
+    ExternalISBNDataService testWebService;
+    StockManager stockManager;
+    ExternalISBNDataService testDatabaseService;
+
+    /**
+     * Runs at the beginning of every single test. Since the testWebService variable is called in most tests, it is
+     * instantiated Before each one runs.
+     */
+    @Before
+    public void setup() {
+        testWebService = mock(ExternalISBNDataService.class);
+        stockManager = new StockManager();
+        stockManager.setWebservice(testWebService);
+        testDatabaseService = mock(ExternalISBNDataService.class);
+        stockManager.setDatabaseService(testDatabaseService);
+    }
+
+
     @Test
     public void getsCorrectLocatorCode() {
-        // Dependency on external service. Mockup of external service / test stub
-        ExternalISBNDataService testService = new ExternalISBNDataService() {
-            @Override
-            public Book lookup(String isbn) {
-                return new Book(isbn, "Of Mice and Men", "J. Steinbeck");
-            }
-        };
+        when(testWebService.lookup(anyString())).thenReturn(new Book("0140177396", "Of Mice and Men", "J. Steinbeck"));
+        when(testDatabaseService.lookup(anyString())).thenReturn(null);
 
-        StockManager stockManager = new StockManager();
-        stockManager.setService(testService);
-
-        // Of Mice and Men by John Steinbeck
+        /** Of Mice and Men by John Steinbeck */
         String isbn = "0140177396";
         String locatorCode = stockManager.getLocatorCode(isbn);
         assertEquals("7396J4", locatorCode);
+    }
+
+    @Test
+    public void usesDatabaseWhenDataIsPresent() {
+        /** If there is no data in databaseService, return null */
+        when(testDatabaseService.lookup("0140177396")).thenReturn(null);
+        when(testWebService.lookup("0140177396")).thenReturn(new Book("0140177396", "abc", "abc"));
+
+        /** Of Mice and Men by John Steinbeck */
+        String isbn = "0140177396";
+        String locatorCode = stockManager.getLocatorCode(isbn);
+
+        when(testWebService.lookup(anyString())).thenReturn(new Book("0140177396", "Of Mice and Men", "J. Steinbeck"));
+        when(testDatabaseService.lookup(anyString())).thenReturn(null);
+    }
+
+    @Test
+    public void usesWebserviceWhenDataNotInDatabase() {
+        when(testWebService.lookup(anyString())).thenReturn(new Book("0140177396", "Of Mice and Men", "J. Steinbeck"));
+        when(testDatabaseService.lookup(anyString())).thenReturn(null);
+
+        String isbn = "0140177396";
+        String locatorCode = stockManager.getLocatorCode(isbn);
+
+        verify(testDatabaseService).lookup("0140177396");
+        verify(testWebService).lookup("0140177396");
     }
 
 }
