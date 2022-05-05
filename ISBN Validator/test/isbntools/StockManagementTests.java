@@ -2,14 +2,16 @@ package isbntools;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests the StockManagment class' behaviour
+ */
 public class StockManagementTests {
 
-    ExternalISBNDataService testWebService;
     StockManager stockManager;
+    ExternalISBNDataService testWebService;
     ExternalISBNDataService testDatabaseService;
 
     /**
@@ -24,7 +26,6 @@ public class StockManagementTests {
         testDatabaseService = mock(ExternalISBNDataService.class);
         stockManager.setDatabaseService(testDatabaseService);
     }
-
 
     @Test
     public void getsCorrectLocatorCode() {
